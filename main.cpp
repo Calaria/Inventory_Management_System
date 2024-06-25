@@ -124,14 +124,12 @@ int main()
             cout << "-----------------------------------------------------------" << endl;
             break;
         }
-        case '8': // sort by prices
+        case '8':
         {
-            cout<<"Increasing or Decreasing? (I/D): ";
             char choice;
-            cin>>choice;
+            cout << "Sort by price in ascending or descending order? (A/D): ";
+            cin >> choice;
             inventory.sortByPrice(choice);
-            cout << "Inventory sorted by price." << endl;
-            cout << "-----------------------------------------------------------" << endl;
             break;
         }
         case 'q':
