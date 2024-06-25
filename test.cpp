@@ -1,7 +1,4 @@
 #include "Inventory.h"
-#include "Settings.h"
-#include <iostream>
-#include <iomanip>
 
 void Inventory::addProduct(Product product)
 {
@@ -13,7 +10,7 @@ void Inventory::addProduct(Product product)
     {
         products[product.getId()] = product;
         cout << "Product added successfully." << endl;
-        cout << string(140, '-') << endl;
+        cout << "-----------------------------------------------------------" << endl;
     }
 }
 
@@ -22,7 +19,7 @@ void Inventory::removeProduct(int id)
     if (products.erase(id))
     {
         cout << "Product removed successfully." << endl;
-        cout << string(140, '-') << endl;
+        cout << "-----------------------------------------------------------" << endl;
     }
     else
     {
@@ -58,15 +55,17 @@ void Inventory::updateProduct(int id, string name, string category, double price
 
 void Inventory::printProduct() const
 {
-    Settings::printTableHeader(cout); // Print the table header
-    Settings::line_separator(cout); // Print a line separator
-
     for (const auto& pair : products)
     {
-        cout << pair.second.toString() << endl;
+        const Product& p = pair.second;
+        cout << "ID: " << p.getId() << endl;
+        cout << "Name: " << p.getName() << endl;
+        cout << "Category: " << p.getCategory() << endl;
+        cout << "Price: $" << p.getPrice() << endl;
+        cout << "Quantity: " << p.getQuantity() << endl;
+        cout << "-----------------------------------------------------------" << endl;
     }
 }
-
 
 void Inventory::saveInventoryToFile(string filename)
 {
