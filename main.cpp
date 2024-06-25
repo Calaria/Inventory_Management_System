@@ -32,20 +32,19 @@ int main()
             cout << "Welcome, Admin!" << endl; 
             Settings::line_separator(cout);
             // 管理员的专有操作
-            handleCases();
+            handleCases("admin");
         }
         else
         {
             cout << "Welcome, User!" << endl;
             Settings::line_separator(cout);
             // 普通用户的专有操作
-            handleCases();
+            handleCases("user");
         }
     }
     else
     {
         cout << "Authentication failed!" << endl;
-        handleCases();
     }
     
     return 0;

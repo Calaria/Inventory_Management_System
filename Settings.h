@@ -5,12 +5,12 @@
 #include <ostream>
 #include <iomanip>
 #include <string>
-
+#include <vector>
 class Settings
 {
-public:
-    static void printTableHeader(std::ostream &os);
-    static void line_separator(std::ostream &os);
+    public:
+        static void printTableHeader(std::ostream &os);
+        static void line_separator(std::ostream &os);
 };
-
 #endif
+

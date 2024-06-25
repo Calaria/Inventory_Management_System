@@ -4,13 +4,14 @@
 #include <string>
 using namespace std;
 
-enum class Role 
+enum class Role
 {
     ADMIN,
     USER
 };
 
-class User {
+class User
+{
 private:
     string username;
     string password;
