@@ -1,19 +1,19 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <vector>
+#include <unordered_map>
 #include <string>
-#include <fstream>//用于文件读写操作。
-#include <sstream>//用于字符串流操作。
+#include <fstream> // 用于文件读写操作。
+#include <sstream> // 用于字符串流操作。
 #include <iostream>
-#include "product.h"//包含自定义的 Product 类定义。
+#include "product.h" // 包含自定义的 Product 类定义。
 
 using namespace std;
 
 class Inventory
 {
 private:
-    vector<Product> products;
+    unordered_map<int, Product> products;
 
 public:
     void addProduct(Product product);

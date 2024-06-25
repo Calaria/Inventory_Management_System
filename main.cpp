@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Product.h"
 #include "Inventory.h"
+#include "Settings.h"
+
 
 using namespace std;
 
@@ -64,18 +66,18 @@ int main()
             cout << "Enter product id: ";
             cin >> id;
             Product *product = inventory.findProduct(id);
-            if (product)
+            if (product != nullptr)
             {
-                cout << "Name: " << product->getName() << endl;
-                cout << "Category: " << product->getCategory() << endl;
-                cout << "Price: $ " << product->getPrice() << endl;
-                cout << "Quantity: " << product->getQuantity() << endl;
-                cout << "-----------------------------------------------------------" << endl;
+                Settings::line_separator(cout);
+                Settings::printTableHeader(cout);
+                Settings::line_separator(cout);
+                cout << product->toString() << endl;
+                Settings::line_separator(cout);
             }
             else
             {
                 cout << "Product not found." << endl;
-                cout << "-----------------------------------------------------------" << endl;
+                Settings::line_separator(cout);
             }
             break;
         }

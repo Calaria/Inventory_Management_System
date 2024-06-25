@@ -1,60 +1,28 @@
 #include "product.h"
 
+Product::Product() : id(0), name(""), category(""), price(0.0), quantity(0) {}
+
 Product::Product(int id, string name, string category, double price, int quantity)
-{
-    this->id = id; // this是指针
-    this->name = name;
-    this->category = category;
-    this->price = price;
-    this->quantity = quantity;
-}
+    : id(id), name(name), category(category), price(price), quantity(quantity) {}
 
-int Product::getId() const
-{
-    return id;
-}
+int Product::getId() const { return id; }
+string Product::getName() const { return name; }
+string Product::getCategory() const { return category; }
+double Product::getPrice() const { return price; }
+int Product::getQuantity() const { return quantity; }
 
-void Product::setId(int id)
-{
-    this->id = id;
-}
+void Product::setName(string name) { this->name = name; }
+void Product::setCategory(string category) { this->category = category; }
+void Product::setPrice(double price) { this->price = price; }
+void Product::setQuantity(int quantity) { this->quantity = quantity; }
 
-string Product::getName() const
+string Product::toString() const
 {
-    return name;
-}
-
-void Product::setName(string name)
-{
-    this->name = name;
-}
-
-string Product::getCategory() const
-{
-    return category;
-}
-
-void Product::setCategory(string category)
-{
-    this->category = category;
-}
-
-double Product::getPrice() const
-{
-    return price;
-}
-
-void Product::setPrice(double price)
-{
-    this->price = price;
-}
-
-int Product::getQuantity() const
-{
-    return quantity;
-}
-
-void Product::setQuantity(int quantity)
-{
-    this->quantity = quantity;
+    stringstream ss;
+    ss << left << setw(10) << id
+       << setw(60) << name
+       << setw(20) << category
+       << setw(20) << price
+       << setw(10) << quantity;
+    return ss.str();
 }
