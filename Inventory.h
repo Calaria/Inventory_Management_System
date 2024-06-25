@@ -23,6 +23,7 @@ public:
     void printProduct() const;
     void saveInventoryToFile(string filename);
     void loadInventoryFromFile(string filename);
+    void sortByPrice(char choice);
 };
 
 #endif // INVENTORY_H

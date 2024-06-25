@@ -2,6 +2,8 @@
 #include "Settings.h"
 #include <iostream>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 void Inventory::addProduct(Product product)
 {
@@ -30,7 +32,7 @@ void Inventory::removeProduct(int id)
     }
 }
 
-Product* Inventory::findProduct(int id)//Product* 表示返回一个指向 Product 对象的指针。
+Product *Inventory::findProduct(int id) // Product* 表示返回一个指向 Product 对象的指针。
 {
     auto it = products.find(id);
     if (it != products.end())
@@ -59,25 +61,24 @@ void Inventory::updateProduct(int id, string name, string category, double price
 void Inventory::printProduct() const
 {
     Settings::printTableHeader(cout); // Print the table header
-    Settings::line_separator(cout); // Print a line separator
+    Settings::line_separator(cout);   // Print a line separator
 
-    for (const auto& pair : products)
+    for (const auto &pair : products)
     {
         cout << pair.second.toString() << endl;
     }
 }
 
-
 void Inventory::saveInventoryToFile(string filename)
 {
     ofstream file;
     file.open(filename, ios::out | ios::app);
-    //ios::out：这是一个文件模式标志，表示文件将被打开以进行输出操作（写入数据）。如果文件不存在，将创建一个新文件。
-    //ios::app：这是另一个文件模式标志，表示所有写入操作都将追加到文件末尾，而不是覆盖文件的现有内容。
-    //这两个标志通过按位或操作符 | 组合在一起
-    for (const auto& pair : products)
+    // ios::out：这是一个文件模式标志，表示文件将被打开以进行输出操作（写入数据）。如果文件不存在，将创建一个新文件。
+    // ios::app：这是另一个文件模式标志，表示所有写入操作都将追加到文件末尾，而不是覆盖文件的现有内容。
+    // 这两个标志通过按位或操作符 | 组合在一起
+    for (const auto &pair : products)
     {
-        const Product& p = pair.second;
+        const Product &p = pair.second;
         file << p.getId() << "," << p.getName() << "," << p.getCategory() << "," << p.getPrice() << "," << p.getQuantity() << endl;
     }
     file.close();
@@ -85,19 +86,18 @@ void Inventory::saveInventoryToFile(string filename)
 
 void Inventory::loadInventoryFromFile(string filename)
 {
-    ifstream file; //这行代码声明了一个名为 file 的 ofstream 对象。
-    file.open(filename); //这行代码调用 ofstream 对象的 open 成员函数，用于打开一个文件。open 函数的第一个参数是文件名，第二个参数是文件打开模式。
-
+    ifstream file;       // 这行代码声明了一个名为 file 的 ofstream 对象。
+    file.open(filename); // 这行代码调用 ofstream 对象的 open 成员函数，用于打开一个文件。open 函数的第一个参数是文件名，第二个参数是文件打开模式。
 
     if (file.is_open())
     {
         products.clear();
         string line;
-        while (getline(file, line))//getline 返回 false 表示已到达文件末尾或发生读取错误。
+        while (getline(file, line)) // getline 返回 false 表示已到达文件末尾或发生读取错误。
         {
-            stringstream ss(line);//将读取的行内容存储到一个 stringstream 对象 ss 中，以便进一步解析。
+            stringstream ss(line); // 将读取的行内容存储到一个 stringstream 对象 ss 中，以便进一步解析。
             string idStr, name, category, priceStr, quantityStr;
-            //使用 getline 函数从字符串流 ss 中读取以逗号分隔的子字符串，并分别存储到 idStr, name, category, priceStr 和 quantityStr 变量中。
+            // 使用 getline 函数从字符串流 ss 中读取以逗号分隔的子字符串，并分别存储到 idStr, name, category, priceStr 和 quantityStr 变量中。
             getline(ss, idStr, ',');
             getline(ss, name, ',');
             getline(ss, category, ',');
@@ -117,4 +117,30 @@ void Inventory::loadInventoryFromFile(string filename)
     {
         cout << "Error: Could not open file " << filename << endl;
     }
+}
+
+void Inventory::sortByPrice(char choice)
+{
+    vector<Product> sortedProducts;
+    for (const auto &pair : products)
+    {
+        sortedProducts.push_back(pair.second);
+    }
+    if (choice == 'I')
+        sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &a, const Product &b)
+             { return a.getPrice() < b.getPrice(); });
+    else
+    {
+        sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &a, const Product &b)
+             { return a.getPrice() > b.getPrice(); });
+    }
+    Settings::printTableHeader(cout);
+    Settings::line_separator(cout);
+
+    for (const auto &p : sortedProducts)
+    {
+        cout << p.toString() << endl;
+    }
+
+    Settings::line_separator(cout);
 }

@@ -25,6 +25,7 @@ int main()
         cout << "5. View all products" << endl;
         cout << "6. Save inventory to file" << endl;
         cout << "7. Load Inventory from file" << endl;
+        cout << "8. Sort by price" << endl;
         cout << "Q. Quit" << endl;
         cin >> choice;
 
@@ -120,6 +121,16 @@ int main()
         {
             inventory.loadInventoryFromFile("inventory.csv");
             cout << "Inventory loaded from file." << endl;
+            cout << "-----------------------------------------------------------" << endl;
+            break;
+        }
+        case '8': // sort by prices
+        {
+            cout<<"Increasing or Decreasing? (I/D): ";
+            char choice;
+            cin>>choice;
+            inventory.sortByPrice(choice);
+            cout << "Inventory sorted by price." << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
         }
