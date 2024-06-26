@@ -1,15 +1,16 @@
-#include "cases.h"
 #include <iostream>
-#include <algorithm>
 #include <unordered_set>
+#include <algorithm>
+#include <string>
+#include <sstream>
+
 #include "Product.h"
+#include "cases.h"
 #include "Inventory.h"
 #include "Settings.h"
-#include <sstream>
 #include "Algorithm.h"
 
 using namespace std;
-
 vector<string> choices = {"Add Product",
                           "Remove Product",
                           "Find Product",
@@ -78,34 +79,15 @@ int handleCases(const string &role)
             string name, category;
             double price;
             int quantity;
-            cout << "Enter ID: ";
-            while (!(cin >> id))
+            printf("How many products do you want to add? ");
+            int n;
+            cin>>n;
+            while (n--)
             {
-                cout << "Invalid input. Please enter a number for ID: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                prompt_add_product(id, name, category, price, quantity);
+                Product product(id, name, category, price, quantity);
+                inventory.addProduct(product);
             }
-            cin.ignore();
-            cout << "Enter product name: ";
-            getline(cin, name);
-            cout << "Enter product category: ";
-            getline(cin, category);
-            cout << "Enter product price: $ ";
-            while (!(cin >> price))
-            {
-                cout << "Invalid input. Please enter a number for price: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
-            cout << "Enter product quantity: ";
-            while (!(cin >> quantity))
-            {
-                cout << "Invalid input. Please enter a number for quantity: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
-            Product product(id, name, category, price, quantity);
-            inventory.addProduct(product);
             break;
         }
         case '2':
