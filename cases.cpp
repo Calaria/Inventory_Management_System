@@ -6,7 +6,7 @@
 #include "Inventory.h"
 #include "Settings.h"
 #include <sstream>
-
+#include "Algorithm.h"
 
 using namespace std;
 
@@ -17,56 +17,8 @@ vector<string> choices = {"Add Product",
                           "Print Inventory",
                           "Save Inventory",
                           "Load Inventory",
-                          "Sort by Price", 
+                          "Sort by Price",
                           "Quit"};
-
-
-
-int common_sequence_length(string s1, string s2)
-{
-    transform(s1.begin(), s1.end(), s1.begin(), [](unsigned char c) { return tolower(c); });
-    transform(s2.begin(), s2.end(), s2.begin(), [](unsigned char c) { return tolower(c); });
-    int n = s1.size();
-    int m = s2.size();
-
-    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 1; j <= m; j++)
-        {
-            if (s1[i - 1] == s2[j - 1])
-            {
-                dp[i][j] = 1 + dp[i - 1][j - 1];
-            }
-            else
-            {
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
-            }
-        }
-    }
-    return dp[n][m];
-}
-
-char largest_common_sequence(string s)
-{
-    int len = 0;
-    int idx = -1;
-    for (int i = 0; i < choices.size(); i++)
-    {
-        int curr_len = common_sequence_length(s, choices[i]);
-        if (curr_len > len)
-        {
-            len = curr_len;
-            idx = i;
-        }
-    }
-    // if the length of the common sequence is less than 4, return '0'
-    if (len<4)
-    {
-        return '0';
-    }
-    return idx + '1'; // Convert to corresponding menu choice (1-based index)
-}
 
 // print user prompts
 char prompt()
@@ -91,7 +43,8 @@ char prompt()
         return choice[0];
     // if user enters multiple characters, find the largest common sequence
     char tmp = largest_common_sequence(choice);
-    if (tmp == '9')return 'q';
+    if (tmp == '9')
+        return 'q';
     return tmp;
 }
 
@@ -116,49 +69,80 @@ int handleCases(const string &role)
         switch (choice)
         {
         case '0':
-        // wrong input
-        {
             cout << "Invalid Choice. Please Try again" << endl;
             Settings::line_separator(cout);
             continue;
-        }
         case '1':
-        // add product
         {
             int id;
             string name, category;
             double price;
             int quantity;
             cout << "Enter ID: ";
-            cin >> id;
+            while (!(cin >> id))
+            {
+                cout << "Invalid input. Please enter a number for ID: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            cin.ignore();
             cout << "Enter product name: ";
-            cin >> name;
+            getline(cin, name);
             cout << "Enter product category: ";
-            cin >> category;
+            getline(cin, category);
             cout << "Enter product price: $ ";
-            cin >> price;
+            while (!(cin >> price))
+            {
+                cout << "Invalid input. Please enter a number for price: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
             cout << "Enter product quantity: ";
-            cin >> quantity;
+            while (!(cin >> quantity))
+            {
+                cout << "Invalid input. Please enter a number for quantity: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
             Product product(id, name, category, price, quantity);
             inventory.addProduct(product);
             break;
         }
-
         case '2':
-        // remove product
         {
             int id;
             cout << "Enter product id: ";
-            cin >> id;
+            while (!(cin >> id))
+            {
+                cout << "Invalid input. Please enter a number for ID: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
             inventory.removeProduct(id);
             break;
         }
         case '3':
-        // find product
         {
             int id;
             cout << "Enter product id: ";
-            cin >> id;
+            string input;
+
+            while (true)
+            {
+                cout << "Please enter a number for ID: ";
+                getline(cin, input);
+                stringstream ss(input);
+
+                if (ss >> id)
+                {
+                    break;
+                }
+                else
+                {
+                    cout << "Invalid input. Please enter a number for ID: ";
+                    ss.clear();
+                }
+            }
             Product *product = inventory.findProduct(id);
             if (product != nullptr)
             {
@@ -175,74 +159,81 @@ int handleCases(const string &role)
             }
             break;
         }
-
         case '4':
-        // update product
         {
             int id;
             string name, category;
             double price;
             int quantity;
             cout << "Enter the product id: ";
-            cin >> id;
+            while (!(cin >> id))
+            {
+                cout << "Invalid input. Please enter a number for ID: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            cin.ignore();
             cout << "Enter new product name: ";
-            cin >> name;
+            getline(cin, name);
             cout << "Enter new product category: ";
-            cin >> category;
+            getline(cin, category);
             cout << "Enter new product price: $ ";
-            cin >> price;
+            while (!(cin >> price))
+            {
+                cout << "Invalid input. Please enter a number for price: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
             cout << "Enter new product quantity: ";
-            cin >> quantity;
+            while (!(cin >> quantity))
+            {
+                cout << "Invalid input. Please enter a number for quantity: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
             inventory.updateProduct(id, name, category, price, quantity);
             cout << "Product updated successfully." << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
         }
-
         case '5':
-        // print inventory
-        {
             inventory.printProduct();
             break;
-        }
         case '6':
-        // save inventory
-        {
             inventory.saveInventoryToFile("inventory.csv");
             cout << "Inventory saved to file." << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
-        }
         case '7':
-        // load inventory
-        {
             inventory.loadInventoryFromFile("inventory.csv");
             cout << "Inventory loaded from file." << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
-        }
         case '8':
-        // sort by price
         {
-            char choice;
+            string sort_choice;
             cout << "Sort by price in ascending or descending order? (A/D): ";
-            cin >> choice;
-            inventory.sortByPrice(choice);
+            getline(cin, sort_choice);
+            if (!sort_choice.empty() && (sort_choice[0] == 'A' || sort_choice[0] == 'a' || sort_choice[0] == 'D' || sort_choice[0] == 'd'))
+            {
+                inventory.sortByPrice(sort_choice[0]);
+            }
+            else
+            {
+                cout << "Invalid input. Please enter 'A' or 'D'." << endl;
+            }
+
             break;
         }
         case 'q':
         case 'Q':
-        // quit
             cout << "Goodbye!" << endl;
             cout << "-----------------------------------------------------------" << endl;
             return 0;
-
         default:
-        // wrong input
             cout << "Invalid Choice. Please Try again" << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
         }
     } while (true);
-    return 0;
 }
