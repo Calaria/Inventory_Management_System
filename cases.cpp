@@ -102,7 +102,7 @@ int handleCases(const string &role)
             cin >> id;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            if (inventory.findProduct(id) == nullptr)
+            if (inventory.findProduct(to_string(id)) == nullptr)
             {
                 cout << "[info]: Product not found." << endl;
                 Settings::line_separator(cout);
@@ -117,39 +117,34 @@ int handleCases(const string &role)
         // find product
         case '3':
         {
-            int id;
-            cout << "Enter product id: ";
-            string input;
+
             while (true)
             {
-                cout << "Please enter a number for ID: ";
-                getline(cin, input);
-                stringstream ss(input);
+                cout << "Enter the product id or product name to search\n";
+                cout << "If you want to exit, please enter Done\n";
 
-                if (ss >> id)
+                string input;
+                getline(cin, input);
+                Product *product = inventory.findProduct(input);
+                if(input == "Done" || input == "done")
                 {
                     break;
                 }
+                if (product != nullptr)
+                {
+                    Settings::line_separator(cout);
+                    Settings::printTableHeader(cout);
+                    Settings::line_separator(cout);
+                    cout << product->toString() << endl;
+                    Settings::line_separator(cout);
+                }
                 else
                 {
-                    cout << "[info]: Invalid input. Please enter a number for ID: ";
-                    ss.clear();
+                    cout << "[info]: Product not found." << endl;
+                    Settings::line_separator(cout);
                 }
             }
-            Product *product = inventory.findProduct(id);
-            if (product != nullptr)
-            {
-                Settings::line_separator(cout);
-                Settings::printTableHeader(cout);
-                Settings::line_separator(cout);
-                cout << product->toString() << endl;
-                Settings::line_separator(cout);
-            }
-            else
-            {
-                cout << "[info]: Product not found." << endl;
-                Settings::line_separator(cout);
-            }
+
             break;
         }
         // update product
@@ -165,15 +160,15 @@ int handleCases(const string &role)
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-            if (inventory.findProduct(id) == nullptr)
+            if (inventory.findProduct(to_string(id)) == nullptr)
             {
                 cout << "[info]: Product not found." << endl;
                 Settings::line_separator(cout);
                 break;
             }
 
-            vector<string>update_choices={" ","Name","Category","Price","Quantity","Done"};
-            while(true)
+            vector<string> update_choices = {" ", "Name", "Category", "Price", "Quantity", "Done"};
+            while (true)
             {
                 cout << "What information would you like to update? (Name/Category/Price/Quantity): \n";
                 cout << "If you are done updating, please enter 'Done'." << endl;
@@ -181,14 +176,14 @@ int handleCases(const string &role)
                 getline(cin, input);
                 transform(input.begin(), input.end(), input.begin(), ::tolower);
                 int idx = largest_common_sequence(input, update_choices);
-                if (idx ==0)
+                if (idx == 0)
                 {
                     cout << "[info]: Invalid input. Please enter 'Name', 'Category', 'Price', or 'Quantity'." << endl;
                     continue;
                 }
-                unordered_set<string>tmp={update_choices[idx]};
+                unordered_set<string> tmp = {update_choices[idx]};
                 prompt_info(id, name, category, price, quantity, tmp);
-                if(idx==5)
+                if (idx == 5)
                 {
                     break;
                 }

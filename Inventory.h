@@ -18,7 +18,7 @@ private:
 public:
     void addProduct(Product product);
     void removeProduct(int id);
-    Product* findProduct(int id);
+    Product* findProduct(string input);
     void updateProduct(int id, string name, string category, double price, int quantity);
     void printProduct() const;
     void saveInventoryToFile(string filename);

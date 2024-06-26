@@ -52,12 +52,26 @@ void Inventory::removeProduct(int id)
     }
 }
 
-Product *Inventory::findProduct(int id) // Product* 表示返回一个指向 Product 对象的指针。
+Product *Inventory::findProduct(std::string input) // Product* 表示返回一个指向 Product 对象的指针。
 {
-    auto it = products.find(id);
-    if (it != products.end())
+    if(isdigit(input[0]))
     {
-        return &(it->second);
+        int id = stoi(input);
+        auto it = products.find(id);
+        if (it != products.end())
+        {
+            return &(it->second);
+        }
+    }
+    else
+    {
+        for (auto &pair : products)
+        {
+            if (pair.second.getName() == input)
+            {
+                return &(pair.second);
+            }
+        }
     }
     return nullptr;
 }
