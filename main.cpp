@@ -16,16 +16,22 @@
 
 using namespace std;
 
-void getPassword(string &password) {
+void getPassword(string &password)
+{
 #ifdef _WIN32
     char ch;
-    while ((ch = _getch()) != '\r') { // Enter key
-        if (ch == '\b') { // Backspace key
-            if (!password.empty()) {
+    while ((ch = _getch()) != '\r')
+    { // Enter key
+        if (ch == '\b')
+        { // Backspace key
+            if (!password.empty())
+            {
                 cout << "\b \b";
                 password.pop_back();
             }
-        } else {
+        }
+        else
+        {
             cout << '*';
             password += ch;
         }
@@ -44,37 +50,54 @@ void getPassword(string &password) {
     cout << endl;
 #endif
 }
-int main() {
+int main()
+{
     UserManager userManager;
     // 添加用户
     userManager.addUser(User("admin", "1", Role::ADMIN));
     userManager.addUser(User("user1", "password1", Role::USER));
 
     // 验证用户
-    string username, password;
-    cout << "Enter username: ";
-    getline(cin, username);
-
-    cout << "Enter password: ";
-    getPassword(password);
-
-    if (userManager.authenticate(username, password)) {
-        Settings::line_separator(cout);
-        cout << "[info]: Authentication successful!" << endl;
-        Role role = userManager.getUserRole(username);
-        if (role == Role::ADMIN) {
-            cout << "[info]: Welcome, Admin!" << endl;
-            Settings::line_separator(cout);
-            // 管理员的专有操作
-            handleCases("admin");
-        } else {
-            cout << "[info]: Welcome, User!" << endl;
-            Settings::line_separator(cout);
-            // 普通用户的专有操作
-            handleCases("user");
+    int cnt = 0;
+    while (true)
+    {
+        if(cnt == 3)
+        {
+            cout << "[info]: Too many failed attempts. Exiting..." << endl;
+            break;
         }
-    } else {
-        cout << "[info]: Authentication failed!" << endl;
+        string username, password;
+        cout << "Enter username: ";
+        getline(cin, username);
+
+        cout << "Enter password: ";
+        getPassword(password);
+
+        if (userManager.authenticate(username, password))
+        {
+            Settings::line_separator(cout);
+            cout << "[info]: Authentication successful!" << endl;
+            Role role = userManager.getUserRole(username);
+            if (role == Role::ADMIN)
+            {
+                cout << "[info]: Welcome, Admin!" << endl;
+                Settings::line_separator(cout);
+                // 管理员的专有操作
+                handleCases("admin");
+            }
+            else
+            {
+                cout << "[info]: Welcome, User!" << endl;
+                Settings::line_separator(cout);
+                // 普通用户的专有操作
+                handleCases("user");
+            }
+        }
+        else
+        {
+            cnt++;
+            cout << "[info]: Authentication failed!" << endl;
+        }
     }
 
     return 0;
