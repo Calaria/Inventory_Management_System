@@ -7,7 +7,6 @@
 
 using namespace std;
 
-extern vector<string> choices;
 
 void prompt_add_product(int &id, string &name, string &category, double &price, int &quantity)
 {
@@ -59,22 +58,22 @@ int common_sequence_length(string s1, string s2)
     return dp[n][m];
 }
 
-char largest_common_sequence(string s)
+int largest_common_sequence(string s, vector<string> choices)
 {
     int len = 0;
     int idx = -1;
-    for (int i = 0; i < choices.size(); i++)
+    for (int i = 1; i < choices.size(); i++)
     {
-        int curr_len = common_sequence_length(s, choices[i]);
-        if (curr_len > len)
+        int l = common_sequence_length(s, choices[i]);
+        if (l > len)
         {
-            len = curr_len;
+            len = l;
             idx = i;
         }
     }
-    if (len < 4)
-    {
-        return '0';
-    }
-    return idx + '1';
+        if (len < 4)
+        {
+            return 0;
+        }
+    return idx;
 }

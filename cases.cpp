@@ -11,7 +11,8 @@
 #include "Algorithm.h"
 
 using namespace std;
-vector<string> choices = {"Add Product",
+vector<string> choices = {" ",
+                          "Add Product",
                           "Remove Product",
                           "Find Product",
                           "Update Product",
@@ -43,10 +44,10 @@ char prompt()
     if (choice.size() == 1)
         return choice[0];
     // if user enters multiple characters, find the largest common sequence
-    char tmp = largest_common_sequence(choice);
-    if (tmp == '9')
+    int idx = largest_common_sequence(choice, choices);
+    if (idx == 9)
         return 'q';
-    return tmp;
+    return idx + '0';
 }
 
 int handleCases(const string &role)
@@ -69,10 +70,12 @@ int handleCases(const string &role)
         }
         switch (choice)
         {
+        // invalid choice
         case '0':
             cout << "Invalid Choice. Please Try again" << endl;
             Settings::line_separator(cout);
             continue;
+        // add product
         case '1':
         {
             int id;
@@ -95,10 +98,10 @@ int handleCases(const string &role)
         {
             int id;
             cout << "Enter product id: ";
-            cin>>id;
+            cin >> id;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            if(inventory.findProduct(id) == nullptr)
+            if (inventory.findProduct(id) == nullptr)
             {
                 cout << "Product not found." << endl;
                 Settings::line_separator(cout);
@@ -149,6 +152,7 @@ int handleCases(const string &role)
             }
             break;
         }
+        // update product
         case '4':
         {
             int id;
@@ -186,19 +190,23 @@ int handleCases(const string &role)
             cout << "-----------------------------------------------------------" << endl;
             break;
         }
+        // print inventory
         case '5':
             inventory.printProduct();
             break;
+        // save inventory
         case '6':
             inventory.saveInventoryToFile("inventory.csv");
             cout << "Inventory saved to file." << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
+        // load inventory
         case '7':
             inventory.loadInventoryFromFile("inventory.csv");
             cout << "Inventory loaded from file." << endl;
             cout << "-----------------------------------------------------------" << endl;
             break;
+        // sort by price
         case '8':
         {
             string sort_choice;
@@ -215,6 +223,7 @@ int handleCases(const string &role)
 
             break;
         }
+        // quit
         case 'q':
         case 'Q':
             cout << "Goodbye!" << endl;
