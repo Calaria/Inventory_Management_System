@@ -71,6 +71,8 @@ char largest_common_sequence(string s)
 // print user prompts
 char prompt()
 {
+    cout << "-----------------------------------------------------------" << endl;
+    cout << "Please select an option OR enter a keyword to search: " << endl;
     cout << "1. Add Product" << endl;
     cout << "2. Remove Product" << endl;
     cout << "3. Find Product" << endl;

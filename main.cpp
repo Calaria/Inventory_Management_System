@@ -12,7 +12,7 @@ int main()
 {
     UserManager userManager;
     // 添加用户
-    userManager.addUser(User("admin", "admin123", Role::ADMIN));
+    userManager.addUser(User("admin", "1", Role::ADMIN));
     userManager.addUser(User("user1", "password1", Role::USER));
 
     // 验证用户

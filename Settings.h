@@ -13,4 +13,3 @@ class Settings
         static void line_separator(std::ostream &os);
 };
 #endif
-
