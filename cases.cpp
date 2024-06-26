@@ -22,20 +22,42 @@ vector<string> choices = {" ",
                           "Sort by Price",
                           "Quit"};
 
-// print user prompts
-char prompt()
+char prompt_user()
 {
     Settings::line_separator(cout);
     cout << "Please select an option OR enter a keyword to search: " << endl;
-    cout << "1. Add Product" << endl;
-    cout << "2. Remove Product" << endl;
-    cout << "3. Find Product" << endl;
-    cout << "4. Update Product" << endl;
-    cout << "5. Print Inventory" << endl;
-    cout << "6. Save Inventory" << endl;
-    cout << "7. Load Inventory" << endl;
-    cout << "8. Sort by Price" << endl;
-    cout << "Q. Quit" << endl;
+    cout << "1. Find Product" << endl;    // map to 3
+    cout << "2. Print Inventory" << endl; // map to 5
+    cout << "3. Load Inventory" << endl;  // map to 7
+    cout << "4. Sort by Price" << endl;   // map to 8
+    cout << "5. Quit" << endl;            // map to 9
+    Settings::line_separator(cout);
+    cout << "Enter your choice: ";
+    string choice;
+    getline(cin, choice);
+    // if user enters a single character, return it
+    unordered_map<string, string> map = {{"1", "3"}, {"2", "5"}, {"3", "7"}, {"4", "8"}, {"5", "q"}};
+    if (choice.size() == 1)
+        return map[choice][0];
+    // if user enters multiple characters, find the largest common sequence
+    int idx = largest_common_sequence(choice, choices);
+    if (idx == 9)
+        return 'q';
+    return idx + '0';
+}
+char prompt_admin()
+{
+    Settings::line_separator(cout);
+    cout << "Please select an option OR enter a keyword to search: " << endl;
+    cout << "1. Add Product" << endl;     // admin
+    cout << "2. Remove Product" << endl;  // admin
+    cout << "3. Find Product" << endl;    // user1
+    cout << "4. Update Product" << endl;  // admin
+    cout << "5. Print Inventory" << endl; // user2
+    cout << "6. Save Inventory" << endl;  // admin
+    cout << "7. Load Inventory" << endl;  // user3
+    cout << "8. Sort by Price" << endl;   // user4
+    cout << "Q. Quit" << endl;            // user5
     Settings::line_separator(cout);
     cout << "Enter your choice: ";
     string choice;
@@ -49,6 +71,17 @@ char prompt()
         return 'q';
     return idx + '0';
 }
+// print user prompts
+
+char prompt(string role)
+{
+    if (role == "user")
+        return prompt_user();
+    else if (role == "admin")
+        return prompt_admin();
+    else
+        return '0';
+}
 
 int handleCases(const string &role)
 {
@@ -60,7 +93,7 @@ int handleCases(const string &role)
     Settings::line_separator(cout);
     do
     {
-        char choice = prompt(); // display choices
+        char choice = prompt(role); // display choices
         unordered_set<char> admin_rights = {'1', '2', '4', '6'};
         if (role == "user" && admin_rights.count(choice))
         {
@@ -126,7 +159,7 @@ int handleCases(const string &role)
                 string input;
                 getline(cin, input);
                 Product *product = inventory.findProduct(input);
-                if(input == "Done" || input == "done")
+                if (input == "Done" || input == "done")
                 {
                     break;
                 }
