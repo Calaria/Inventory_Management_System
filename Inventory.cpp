@@ -160,10 +160,10 @@ void Inventory::sortByPrice(char choice)
     {
         sortedProducts.push_back(pair.second);
     }
-    if (choice == 'A')
+    if (choice == 'A'|| choice == 'a')
         sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &a, const Product &b)
              { return a.getPrice() < b.getPrice(); });
-    else if (choice == 'D')
+    else if (choice == 'D'|| choice == 'd')
     {
         sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &a, const Product &b)
              { return a.getPrice() > b.getPrice(); });
