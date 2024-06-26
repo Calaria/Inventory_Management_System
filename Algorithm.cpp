@@ -1,6 +1,7 @@
 // Algorithm.cpp
 #include "Algorithm.h"
 #include <algorithm>
+#include <iostream>
 #include <vector>
 #include <string>
 
@@ -8,10 +9,35 @@ using namespace std;
 
 extern vector<string> choices;
 
+void prompt_add_product(int &id, string &name, string &category, double &price, int &quantity)
+{
+    cout << "Enter ID: ";
+    while (!(cin >> id))
+    {
+        cout << "Invalid input. Please enter a number for ID: ";
+    }
+    cin.ignore();
+    cout << "Enter product name: ";
+    getline(cin, name);
+    cout << "Enter product category: ";
+    getline(cin, category);
+    cout << "Enter product price: $ ";
+    while (!(cin >> price))
+    {
+        cout << "Invalid input. Please enter a number for price: ";
+    }
+    cout << "Enter product quantity: ";
+    while (!(cin >> quantity))
+    {
+        cout << "Invalid input. Please enter a number for quantity: ";
+    }
+}
 int common_sequence_length(string s1, string s2)
 {
-    transform(s1.begin(), s1.end(), s1.begin(), [](unsigned char c) { return tolower(c); });
-    transform(s2.begin(), s2.end(), s2.begin(), [](unsigned char c) { return tolower(c); });
+    transform(s1.begin(), s1.end(), s1.begin(), [](unsigned char c)
+              { return tolower(c); });
+    transform(s2.begin(), s2.end(), s2.begin(), [](unsigned char c)
+              { return tolower(c); });
     int n = s1.size();
     int m = s2.size();
 
