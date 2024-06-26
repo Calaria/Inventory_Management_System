@@ -4,33 +4,50 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_set>
 
 using namespace std;
 
-
-void prompt_add_product(int &id, string &name, string &category, double &price, int &quantity)
+void prompt_info(int &id, string &name, string &category, double &price, int &quantity, unordered_set<string> Inquiry_content)
 {
-    cout << "Enter ID: ";
-    while (!(cin >> id))
+    if (Inquiry_content.count("ID"))
     {
-        cout << "Invalid input. Please enter a number for ID: ";
+        cout << "Enter the product id: ";
+        cin >> id;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    cin.ignore();
-    cout << "Enter product name: ";
-    getline(cin, name);
-    cout << "Enter product category: ";
-    getline(cin, category);
-    cout << "Enter product price: $ ";
-    while (!(cin >> price))
+
+    if (Inquiry_content.count("Name"))
     {
-        cout << "Invalid input. Please enter a number for price: ";
+        cout << "Enter the product name: ";
+        getline(cin, name);
     }
-    cout << "Enter product quantity: ";
-    while (!(cin >> quantity))
+    
+    if(Inquiry_content.count("Category"))
     {
-        cout << "Invalid input. Please enter a number for quantity: ";
+        cout << "Enter the product category: ";
+        getline(cin, category);
     }
+
+    if(Inquiry_content.count("Price"))
+    {
+        cout << "Enter the product price: $ ";
+        cin >> price;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    if(Inquiry_content.count("Quantity"))
+    {
+        cout << "Enter the product quantity: ";
+        cin >> quantity;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
 }
+
 int common_sequence_length(string s1, string s2)
 {
     transform(s1.begin(), s1.end(), s1.begin(), [](unsigned char c)
@@ -71,9 +88,9 @@ int largest_common_sequence(string s, vector<string> choices)
             idx = i;
         }
     }
-        if (len < 4)
-        {
-            return 0;
-        }
+    if (len < 3)
+    {
+        return 0;
+    }
     return idx;
 }

@@ -9,12 +9,12 @@ void Inventory::addProduct(Product product)
 {
     if (products.find(product.getId()) != products.end())
     {
-        cout << "Id already exists." << endl;
+        cout << "[info]: Id already exists." << endl;
     }
     else
     {
         products[product.getId()] = product;
-        cout << "Product added successfully." << endl;
+        cout << "[info]: Product added successfully." << endl;
         Settings::line_separator(cout);
     }
 }
@@ -32,14 +32,14 @@ void Inventory::removeProduct(int id)
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             if (choice != 'Y' && choice != 'y')
             {
-                cout << "Product not removed." << endl;
+                cout << "[info]: Product not removed." << endl;
                 Settings::line_separator(cout);
                 return;
             }
             else
             {
                 products.erase(it);
-                cout << "Product removed successfully." << endl;
+                cout << "[info]: Product removed successfully." << endl;
                 Settings::line_separator(cout);
                 
             }
@@ -47,7 +47,7 @@ void Inventory::removeProduct(int id)
     }
     else
     {
-        cout << "ID does not exist." << endl;
+        cout << "[info]: ID does not exist." << endl;
         Settings::line_separator(cout);
     }
 }
@@ -74,7 +74,7 @@ void Inventory::updateProduct(int id, string name, string category, double price
     }
     else
     {
-        cout << "ID does not exist." << endl;
+        cout << "[info]: ID does not exist." << endl;
     }
 }
 
@@ -135,7 +135,7 @@ void Inventory::loadInventoryFromFile(string filename)
     }
     else
     {
-        cout << "Error: Could not open file " << filename << endl;
+        cout << "[info]: Error: Could not open file " << filename << endl;
     }
 }
 

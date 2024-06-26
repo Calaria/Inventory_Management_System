@@ -60,21 +60,21 @@ int main() {
 
     if (userManager.authenticate(username, password)) {
         Settings::line_separator(cout);
-        cout << "Authentication successful!" << endl;
+        cout << "[info]: Authentication successful!" << endl;
         Role role = userManager.getUserRole(username);
         if (role == Role::ADMIN) {
-            cout << "Welcome, Admin!" << endl;
+            cout << "[info]: Welcome, Admin!" << endl;
             Settings::line_separator(cout);
             // 管理员的专有操作
             handleCases("admin");
         } else {
-            cout << "Welcome, User!" << endl;
+            cout << "[info]: Welcome, User!" << endl;
             Settings::line_separator(cout);
             // 普通用户的专有操作
             handleCases("user");
         }
     } else {
-        cout << "Authentication failed!" << endl;
+        cout << "[info]: Authentication failed!" << endl;
     }
 
     return 0;

@@ -25,7 +25,7 @@ vector<string> choices = {" ",
 // print user prompts
 char prompt()
 {
-    cout << "-----------------------------------------------------------" << endl;
+    Settings::line_separator(cout);
     cout << "Please select an option OR enter a keyword to search: " << endl;
     cout << "1. Add Product" << endl;
     cout << "2. Remove Product" << endl;
@@ -36,7 +36,7 @@ char prompt()
     cout << "7. Load Inventory" << endl;
     cout << "8. Sort by Price" << endl;
     cout << "Q. Quit" << endl;
-    cout << "-----------------------------------------------------------" << endl;
+    Settings::line_separator(cout);
     cout << "Enter your choice: ";
     string choice;
     getline(cin, choice);
@@ -53,18 +53,18 @@ char prompt()
 int handleCases(const string &role)
 {
     Inventory inventory;
-    cout << "-----------------------------------------------------------" << endl;
+    Settings::line_separator(cout);
     cout << "---------------Inventory Management System ----------------" << endl;
-    cout << "-----------------------------------------------------------" << endl;
+    Settings::line_separator(cout);
     cout << "------------------------- Welcome! ------------------------" << endl;
-    cout << "-----------------------------------------------------------" << endl;
+    Settings::line_separator(cout);
     do
     {
         char choice = prompt(); // display choices
         unordered_set<char> admin_rights = {'1', '2', '4', '6'};
         if (role == "user" && admin_rights.count(choice))
         {
-            cout << "You do not have permission to perform this operation." << endl;
+            cout << "[info]: You do not have permission to perform this operation." << endl;
             Settings::line_separator(cout);
             continue;
         }
@@ -72,7 +72,7 @@ int handleCases(const string &role)
         {
         // invalid choice
         case '0':
-            cout << "Invalid Choice. Please Try again" << endl;
+            cout << "[info]: Invalid Choice. Please Try again" << endl;
             Settings::line_separator(cout);
             continue;
         // add product
@@ -85,9 +85,10 @@ int handleCases(const string &role)
             printf("How many products do you want to add? ");
             int n;
             cin >> n;
+            unordered_set<string> Inquiry_content = {"ID", "Name", "Category", "Price", "Quantity"};
             while (n--)
             {
-                prompt_add_product(id, name, category, price, quantity);
+                prompt_info(id, name, category, price, quantity, Inquiry_content);
                 Product product(id, name, category, price, quantity);
                 inventory.addProduct(product);
             }
@@ -103,7 +104,7 @@ int handleCases(const string &role)
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             if (inventory.findProduct(id) == nullptr)
             {
-                cout << "Product not found." << endl;
+                cout << "[info]: Product not found." << endl;
                 Settings::line_separator(cout);
                 break;
             }
@@ -119,7 +120,6 @@ int handleCases(const string &role)
             int id;
             cout << "Enter product id: ";
             string input;
-
             while (true)
             {
                 cout << "Please enter a number for ID: ";
@@ -132,7 +132,7 @@ int handleCases(const string &role)
                 }
                 else
                 {
-                    cout << "Invalid input. Please enter a number for ID: ";
+                    cout << "[info]: Invalid input. Please enter a number for ID: ";
                     ss.clear();
                 }
             }
@@ -147,7 +147,7 @@ int handleCases(const string &role)
             }
             else
             {
-                cout << "Product not found." << endl;
+                cout << "[info]: Product not found." << endl;
                 Settings::line_separator(cout);
             }
             break;
@@ -159,35 +159,43 @@ int handleCases(const string &role)
             string name, category;
             double price;
             int quantity;
+
             cout << "Enter the product id: ";
-            while (!(cin >> id))
+            cin >> id;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            if (inventory.findProduct(id) == nullptr)
             {
-                cout << "Invalid input. Please enter a number for ID: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "[info]: Product not found." << endl;
+                Settings::line_separator(cout);
+                break;
             }
-            cin.ignore();
-            cout << "Enter new product name: ";
-            getline(cin, name);
-            cout << "Enter new product category: ";
-            getline(cin, category);
-            cout << "Enter new product price: $ ";
-            while (!(cin >> price))
+
+            vector<string>update_choices={" ","Name","Category","Price","Quantity","Done"};
+            while(true)
             {
-                cout << "Invalid input. Please enter a number for price: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
-            cout << "Enter new product quantity: ";
-            while (!(cin >> quantity))
-            {
-                cout << "Invalid input. Please enter a number for quantity: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "What information would you like to update? (Name/Category/Price/Quantity): \n";
+                cout << "If you are done updating, please enter 'Done'." << endl;
+                string input;
+                getline(cin, input);
+                transform(input.begin(), input.end(), input.begin(), ::tolower);
+                int idx = largest_common_sequence(input, update_choices);
+                if (idx ==0)
+                {
+                    cout << "[info]: Invalid input. Please enter 'Name', 'Category', 'Price', or 'Quantity'." << endl;
+                    continue;
+                }
+                unordered_set<string>tmp={update_choices[idx]};
+                prompt_info(id, name, category, price, quantity, tmp);
+                if(idx==5)
+                {
+                    break;
+                }
             }
             inventory.updateProduct(id, name, category, price, quantity);
-            cout << "Product updated successfully." << endl;
-            cout << "-----------------------------------------------------------" << endl;
+            cout << "[info]: Product updated successfully." << endl;
+            Settings::line_separator(cout);
             break;
         }
         // print inventory
@@ -197,14 +205,14 @@ int handleCases(const string &role)
         // save inventory
         case '6':
             inventory.saveInventoryToFile("inventory.csv");
-            cout << "Inventory saved to file." << endl;
-            cout << "-----------------------------------------------------------" << endl;
+            cout << "[info]: Inventory saved to file." << endl;
+            Settings::line_separator(cout);
             break;
         // load inventory
         case '7':
             inventory.loadInventoryFromFile("inventory.csv");
-            cout << "Inventory loaded from file." << endl;
-            cout << "-----------------------------------------------------------" << endl;
+            cout << "[info]: Inventory loaded from file." << endl;
+            Settings::line_separator(cout);
             break;
         // sort by price
         case '8':
@@ -218,7 +226,7 @@ int handleCases(const string &role)
             }
             else
             {
-                cout << "Invalid input. Please enter 'A' or 'D'." << endl;
+                cout << "[info]: Invalid input. Please enter 'A' or 'D'." << endl;
             }
 
             break;
@@ -226,12 +234,12 @@ int handleCases(const string &role)
         // quit
         case 'q':
         case 'Q':
-            cout << "Goodbye!" << endl;
-            cout << "-----------------------------------------------------------" << endl;
+            cout << "[info]: Goodbye!" << endl;
+            Settings::line_separator(cout);
             return 0;
         default:
-            cout << "Invalid Choice. Please Try again" << endl;
-            cout << "-----------------------------------------------------------" << endl;
+            cout << "[info]: Invalid Choice. Please Try again" << endl;
+            Settings::line_separator(cout);
             break;
         }
     } while (true);
