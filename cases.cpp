@@ -81,7 +81,7 @@ int handleCases(const string &role)
             int quantity;
             printf("How many products do you want to add? ");
             int n;
-            cin>>n;
+            cin >> n;
             while (n--)
             {
                 prompt_add_product(id, name, category, price, quantity);
@@ -90,19 +90,27 @@ int handleCases(const string &role)
             }
             break;
         }
+        // remove product
         case '2':
         {
             int id;
             cout << "Enter product id: ";
-            while (!(cin >> id))
+            cin>>id;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            if(inventory.findProduct(id) == nullptr)
             {
-                cout << "Invalid input. Please enter a number for ID: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Product not found." << endl;
+                Settings::line_separator(cout);
+                break;
             }
-            inventory.removeProduct(id);
+            else
+            {
+                inventory.removeProduct(id);
+            }
             break;
         }
+        // find product
         case '3':
         {
             int id;

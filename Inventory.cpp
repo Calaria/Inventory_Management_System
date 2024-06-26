@@ -15,20 +15,40 @@ void Inventory::addProduct(Product product)
     {
         products[product.getId()] = product;
         cout << "Product added successfully." << endl;
-        cout << string(140, '-') << endl;
+        Settings::line_separator(cout);
     }
 }
 
 void Inventory::removeProduct(int id)
 {
-    if (products.erase(id))
+    auto it = products.find(id);
+    if (it != products.end())
     {
-        cout << "Product removed successfully." << endl;
-        cout << string(140, '-') << endl;
+        cout << "Are you sure you want to remove the product? (Y/N): ";
+        {
+            char choice;
+            cin >> choice;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            if (choice != 'Y' && choice != 'y')
+            {
+                cout << "Product not removed." << endl;
+                Settings::line_separator(cout);
+                return;
+            }
+            else
+            {
+                products.erase(it);
+                cout << "Product removed successfully." << endl;
+                Settings::line_separator(cout);
+                
+            }
+        }
     }
     else
     {
-        cout << "Id does not exist" << endl;
+        cout << "ID does not exist." << endl;
+        Settings::line_separator(cout);
     }
 }
 
