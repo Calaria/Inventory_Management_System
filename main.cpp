@@ -1,4 +1,12 @@
 #include <iostream>
+#include <string>
+#include <limits>
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
 
 #include "Product.h"
 #include "Inventory.h"
@@ -8,8 +16,35 @@
 
 using namespace std;
 
-int main()
-{
+void getPassword(string &password) {
+#ifdef _WIN32
+    char ch;
+    while ((ch = _getch()) != '\r') { // Enter key
+        if (ch == '\b') { // Backspace key
+            if (!password.empty()) {
+                cout << "\b \b";
+                password.pop_back();
+            }
+        } else {
+            cout << '*';
+            password += ch;
+        }
+    }
+    cout << endl;
+#else
+    struct termios oldt, newt;
+    tcgetattr(STDIN_FILENO, &oldt); // Get current terminal attributes
+    newt = oldt;
+    newt.c_lflag &= ~ECHO; // Disable echo
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    getline(cin, password);
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt); // Restore old terminal attributes
+    cout << endl;
+#endif
+}
+int main() {
     UserManager userManager;
     // 添加用户
     userManager.addUser(User("admin", "1", Role::ADMIN));
@@ -18,34 +53,29 @@ int main()
     // 验证用户
     string username, password;
     cout << "Enter username: ";
-    cin >> username;
-    cout << "Enter password: ";
-    cin >> password;
+    getline(cin, username);
 
-    if (userManager.authenticate(username, password))
-    {
+    cout << "Enter password: ";
+    getPassword(password);
+
+    if (userManager.authenticate(username, password)) {
         Settings::line_separator(cout);
         cout << "Authentication successful!" << endl;
         Role role = userManager.getUserRole(username);
-        if (role == Role::ADMIN)
-        {
-            cout << "Welcome, Admin!" << endl; 
+        if (role == Role::ADMIN) {
+            cout << "Welcome, Admin!" << endl;
             Settings::line_separator(cout);
             // 管理员的专有操作
             handleCases("admin");
-        }
-        else
-        {
+        } else {
             cout << "Welcome, User!" << endl;
             Settings::line_separator(cout);
             // 普通用户的专有操作
             handleCases("user");
         }
-    }
-    else
-    {
+    } else {
         cout << "Authentication failed!" << endl;
     }
-    
+
     return 0;
 }
