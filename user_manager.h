@@ -26,7 +26,7 @@ public:
 
     // 新添加的管理用户的方法
     void deleteUser(const string &username);
-    void updateUser(const string &username, const string &newPassword);
+    void updateUser(const string &username, const string &newPassword, Role &role);
     User *findUser(const string &username);
     void loadUsers();
     void saveUsers();

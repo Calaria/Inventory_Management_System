@@ -355,7 +355,26 @@ int handle_user_cases()
             getline(cin, username);
             cout << "Enter new password: ";
             getline(cin, password);
-            manager.updateUser(username, password);
+            Role role;
+            string role_input;
+            cout<<"Enter role (admin/user): ";
+            getline(cin, role_input);
+            if (role_input == "admin")
+            {
+                role = Role::ADMIN;
+            }
+            else if (role_input == "user")
+            {
+                role = Role::USER;
+            }
+            else
+            {
+                cout << "[info]: Invalid role. Please enter 'admin' or 'user'." << endl;
+                Settings::line_separator(cout);
+                break;
+            }
+            getline(cin, password);
+            manager.updateUser(username, password,role);
             break;
         }
         // get user
@@ -391,6 +410,7 @@ int handle_user_cases()
         {
             cout << "[info]: Goodbye!" << endl;
             Settings::line_separator(cout);
+            manager.saveUsers();
             return 0;
         }
         // invalid choice

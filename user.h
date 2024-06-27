@@ -27,6 +27,7 @@ public:
     bool verifyPassword(const string &password) const;
     Role getRole() const;
     string toString() const;
+    void setRole(Role role);
 
     // 新添加的设置密码的方法
     void setPassword(const string &newPassword);

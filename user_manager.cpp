@@ -36,7 +36,7 @@ void UserManager::deleteUser(const string &username)
                 users.end());
 }
 
-void UserManager::updateUser(const string &username, const string &newPassword)
+void UserManager::updateUser(const string &username, const string &newPassword, Role &role)
 {
     for (auto &user : users)
     {
@@ -44,6 +44,7 @@ void UserManager::updateUser(const string &username, const string &newPassword)
         {
             // 假设有 setPassword 方法，如果没有，则需要添加
             user.setPassword(newPassword);
+            user.setRole(role);
             break;
         }
     }

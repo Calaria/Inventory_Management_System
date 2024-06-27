@@ -28,6 +28,11 @@ void User::setPassword(const string &newPassword)
 {
     password = newPassword;
 }
+// reset role
+void User::setRole(Role role)
+{
+    this->role = role;
+}
 
 // to string
 string User::toString() const
