@@ -19,6 +19,16 @@ Role User::getRole() const
 }
 
 // 实现新添加的设置密码的方法
-void User::setPassword(const string &newPassword) {
+void User::setPassword(const string &newPassword)
+{
     password = newPassword;
+}
+
+// to string
+string User::toString() const
+{
+    stringstream ss;
+    ss << left << setw(20) << username
+       << setw(20) << password;
+    return ss.str();
 }

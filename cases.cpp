@@ -9,6 +9,8 @@
 #include "Inventory.h"
 #include "Settings.h"
 #include "Algorithm.h"
+#include "user.h"
+#include "user_manager.h"
 
 using namespace std;
 vector<string> choices = {" ",
@@ -273,9 +275,24 @@ int handleCases(const string &role)
         }
     } while (true);
 }
-
+//---------------------------------------------------------------------------
+char prompt_user_cases()
+{
+    cout << "1. Add User\n";
+    cout << "2. Delete User\n";
+    cout << "3. Update User\n";
+    cout << "4. Get User\n";
+    cout << "5. Print Users\n";
+    cout << "6. Quit\n";
+    cout << "Enter your choice: ";
+    Settings::line_separator(cout);
+    string choice;
+    getline(cin, choice);
+    return choice[0];
+}
 int handle_user_cases()
 {
+    UserManager manager;
     Settings::line_separator(cout);
     cout << "---------------Inventory Management System ----------------" << endl;
     Settings::line_separator(cout);
@@ -283,51 +300,109 @@ int handle_user_cases()
     do
     {
         // display admin choices: add user, delete user, update user, get user, print users, quit
-        cout << "1. Add User\n";
-        cout << "2. Delete User\n";
-        cout << "3. Update User\n";
-        cout << "4. Get User\n";
-        cout << "5. Print Users\n";
-        cout << "6. Quit\n";
-        cout << "Enter your choice: ";
-        Settings::line_separator(cout);
-        string choice;
-        getline(cin, choice);
-        if (choice == "q" || choice == "Q")
+        char choice = prompt_user_cases();
+
+        switch (choice)
+        {
+        case '1':
+        {
+            string username, password;
+            cout << "Enter username: ";
+            getline(cin, username);
+            cout << "Enter password: ";
+            getline(cin, password);
+            Role role = Role::USER;
+            manager.addUser(User(username, password, role));
+            break;
+        }
+        case '2':
+        {
+            string username;
+            cout << "Enter username: ";
+            getline(cin, username);
+            manager.deleteUser(username);
+            break;
+        }
+        case '3':
+        {
+            string username, password;
+            cout << "Enter username: ";
+            getline(cin, username);
+            cout << "Enter new password: ";
+            getline(cin, password);
+            manager.updateUser(username, password);
+            break;
+        }
+        case '4':
+        {
+            string username;
+            cout << "Enter username: ";
+            getline(cin, username);
+            User *user = manager.getUser(username);
+            if (user != nullptr)
+            {
+                cout << "[info]: User found.\n";
+                Settings::line_separator(cout);
+                cout << user->toString() << endl;
+                Settings::line_separator(cout);
+            }
+            else
+            {
+                cout << "[info]: User not found." << endl;
+                Settings::line_separator(cout);
+            }
+            break;
+        }
+        // print users
+        case '5':
+        {
+            manager.printAllUsers();
+            break;
+        }
+        case '6':
         {
             cout << "[info]: Goodbye!" << endl;
             Settings::line_separator(cout);
             return 0;
         }
+        default:
+        {
+            cout << "[info]: Invalid Choice. Please Try again" << endl;
+            Settings::line_separator(cout);
+            break;
+        }
+        }
     } while (true);
 }
+
 // 如何返回false，则break
 bool prompt_admin_UI() //
 {
     do
-    {cout << "[info]: Welcome, Admin!" << endl;
-    Settings::line_separator(cout);
-    // 管理员的专有操作
-    // 选择处理商品信息还是用户信息
-    cout << "Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
-    int choice;
-    cin >> choice;
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    if (choice == 1)
-        handleCases("admin"); // 来自cases.cpp
-    else if (choice == 2)
     {
-        handle_user_cases(); // 来自cases.cpp
-    }
-    else if (choice == 3)
-    {
-        cout << "[info]: Exiting..." << endl;
-        return false;
-    }
-    else
-    {
-        cout << "[info]: Invalid choice." << endl;
-    }}
-    while (true);
+        cout << "[info]: Welcome, Admin!" << endl;
+        Settings::line_separator(cout);
+        // 管理员的专有操作
+        // 选择处理商品信息还是用户信息
+        cout << "Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
+        int choice;
+        cin >> choice;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        if (choice == 1)
+            handleCases("admin"); // 来自cases.cpp
+        else if (choice == 2)
+        {
+            handle_user_cases(); // 来自cases.cpp
+        }
+        else if (choice == 3)
+        {
+            cout << "[info]: Exiting..." << endl;
+            return false;
+        }
+        else
+        {
+            cout << "[info]: Invalid choice." << endl;
+        }
+    } while (true);
 }
