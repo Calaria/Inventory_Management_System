@@ -22,6 +22,9 @@ public:
     string getUsername() const;
     bool verifyPassword(const string &password) const;
     Role getRole() const;
+
+    // 新添加的设置密码的方法
+    void setPassword(const string &newPassword);
 };
 
 #endif // USER_H

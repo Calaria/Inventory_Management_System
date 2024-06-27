@@ -17,3 +17,8 @@ Role User::getRole() const
 {
     return role;
 }
+
+// 实现新添加的设置密码的方法
+void User::setPassword(const string &newPassword) {
+    password = newPassword;
+}
