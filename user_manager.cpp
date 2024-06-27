@@ -2,7 +2,10 @@
 
 void UserManager::addUser(const User &user)
 {
-    users.push_back(user);
+    if (findUser(user.getUsername()) == nullptr)
+        users.push_back(user);
+    else
+        cerr << "Error: user already exists." << endl;
 }
 
 bool UserManager::authenticate(const string &username, const string &password) const

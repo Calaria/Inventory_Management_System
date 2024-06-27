@@ -282,7 +282,7 @@ char prompt_user_cases()
     cout << "1. Add User\n";
     cout << "2. Delete User\n";
     cout << "3. Update User\n";
-    cout << "4. Get User\n";
+    cout << "4. find User\n";
     cout << "5. Print Users\n";
     cout << "6. Quit\n";
     cout << "Enter your choice:\n";
