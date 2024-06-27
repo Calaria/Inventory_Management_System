@@ -29,6 +29,7 @@ string User::toString() const
 {
     stringstream ss;
     ss << left << setw(20) << username
-       << setw(20) << password;
+       << setw(20) << password
+       << setw(10) << (role == Role::ADMIN ? "ADMIN" : "USER");
     return ss.str();
 }

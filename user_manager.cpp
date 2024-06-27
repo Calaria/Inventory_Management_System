@@ -49,7 +49,7 @@ void UserManager::updateUser(const string &username, const string &newPassword)
     }
 }
 
-User *UserManager::getUser(const string &username)
+User *UserManager::findUser(const string &username)
 {
     for (auto &user : users)
     {
@@ -64,8 +64,12 @@ User *UserManager::getUser(const string &username)
 // print all users
 void UserManager::printAllUsers()
 {
-    for (const auto &user : users)
+    Settings::line_separator(cout);
+    Settings::printUserTableHeader(cout);
+    Settings::line_separator(cout);
+    for(const auto &user : users)
     {
-        cout << "Username: " << user.getUsername() << ", Role: " << (user.getRole() == Role::ADMIN ? "ADMIN" : "USER") << endl;
+        cout << user.toString() << endl;
     }
+    Settings::line_separator(cout);
 }

@@ -11,5 +11,6 @@ class Settings
     public:
         static void printTableHeader(std::ostream &os);
         static void line_separator(std::ostream &os);
+        static void printUserTableHeader(std::ostream &os);
 };
 #endif

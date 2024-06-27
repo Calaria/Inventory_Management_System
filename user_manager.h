@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "user.h"
+#include "Settings.h"
 using namespace std;
 
 class UserManager
@@ -21,7 +22,7 @@ public:
     // 新添加的管理用户的方法
     void deleteUser(const string &username);
     void updateUser(const string &username, const string &newPassword);
-    User *getUser(const string &username);
+    User *findUser(const string &username);
 };
 
 #endif // USER_MANAGER_H

@@ -278,13 +278,14 @@ int handleCases(const string &role)
 //---------------------------------------------------------------------------
 char prompt_user_cases()
 {
+    
     cout << "1. Add User\n";
     cout << "2. Delete User\n";
     cout << "3. Update User\n";
     cout << "4. Get User\n";
     cout << "5. Print Users\n";
     cout << "6. Quit\n";
-    cout << "Enter your choice: ";
+    cout << "Enter your choice:\n";
     Settings::line_separator(cout);
     string choice;
     getline(cin, choice);
@@ -293,6 +294,7 @@ char prompt_user_cases()
 int handle_user_cases()
 {
     UserManager manager;
+    // load users from file
     Settings::line_separator(cout);
     cout << "---------------Inventory Management System ----------------" << endl;
     Settings::line_separator(cout);
@@ -304,6 +306,7 @@ int handle_user_cases()
 
         switch (choice)
         {
+        // add user
         case '1':
         {
             string username, password;
@@ -315,6 +318,7 @@ int handle_user_cases()
             manager.addUser(User(username, password, role));
             break;
         }
+        // delete user
         case '2':
         {
             string username;
@@ -323,6 +327,7 @@ int handle_user_cases()
             manager.deleteUser(username);
             break;
         }
+        // update user
         case '3':
         {
             string username, password;
@@ -333,16 +338,18 @@ int handle_user_cases()
             manager.updateUser(username, password);
             break;
         }
+        // get user
         case '4':
         {
             string username;
             cout << "Enter username: ";
             getline(cin, username);
-            User *user = manager.getUser(username);
+            User *user = manager.findUser(username);
             if (user != nullptr)
             {
                 cout << "[info]: User found.\n";
                 Settings::line_separator(cout);
+                Settings::printUserTableHeader(cout);
                 cout << user->toString() << endl;
                 Settings::line_separator(cout);
             }
@@ -359,12 +366,14 @@ int handle_user_cases()
             manager.printAllUsers();
             break;
         }
+        // quit
         case '6':
         {
             cout << "[info]: Goodbye!" << endl;
             Settings::line_separator(cout);
             return 0;
         }
+        // invalid choice
         default:
         {
             cout << "[info]: Invalid Choice. Please Try again" << endl;
