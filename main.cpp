@@ -83,7 +83,27 @@ int main()
                 cout << "[info]: Welcome, Admin!" << endl;
                 Settings::line_separator(cout);
                 // 管理员的专有操作
-                handleCases("admin");
+                // 选择处理商品信息还是用户信息
+                cout <<"Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
+                int choice;
+                cin >> choice;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                if(choice == 1)
+                    handleCases("admin"); //来自cases.cpp
+                else if(choice == 2)
+                {
+                    handle_user_cases();//来自cases.cpp
+                }
+                else if (choice == 3)
+                {
+                    cout << "[info]: Exiting..." << endl;
+                    break;
+                }
+                else
+                {
+                    cout << "[info]: Invalid choice." << endl;
+                }
             }
             else
             {

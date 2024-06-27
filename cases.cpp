@@ -273,3 +273,33 @@ int handleCases(const string &role)
         }
     } while (true);
 }
+
+int handle_user_cases()
+{
+    Settings::line_separator(cout);
+    cout << "---------------Inventory Management System ----------------" << endl;
+    Settings::line_separator(cout);
+    cout << "--------------------Welcome Admin! ------------------------" << endl;
+    do
+    {
+        // display admin choices: add user, delete user, update user, get user, print users, quit
+        cout<<"1. Add User\n";
+        cout<<"2. Delete User\n";
+        cout<<"3. Update User\n";
+        cout<<"4. Get User\n";
+        cout<<"5. Print Users\n";
+        cout<<"6. Quit\n";
+        cout<<"Enter your choice: ";
+        Settings::line_separator(cout);
+        string choice;
+        getline(cin, choice);
+        if (choice == "q" || choice == "Q")
+        {
+            cout << "[info]: Goodbye!" << endl;
+            Settings::line_separator(cout);
+            return 0;
+        }
+    }
+    while (true);
+
+}
