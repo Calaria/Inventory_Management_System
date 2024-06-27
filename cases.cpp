@@ -295,6 +295,7 @@ int handle_user_cases()
 {
     UserManager manager;
     // load users from file
+    manager.loadUsers();
     Settings::line_separator(cout);
     cout << "---------------Inventory Management System ----------------" << endl;
     Settings::line_separator(cout);

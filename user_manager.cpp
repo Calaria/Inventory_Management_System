@@ -73,3 +73,24 @@ void UserManager::printAllUsers()
     }
     Settings::line_separator(cout);
 }
+
+// load users
+void UserManager::loadUsers()
+{
+    ifstream file("users.txt");
+    if (!file)
+    {
+        cerr << "Error: could not open file." << endl;
+        return;
+    }
+
+    string username;
+    string password;
+    string role;
+    while (file >> username >> password >> role)
+    {
+        Role r = role == "ADMIN" ? Role::ADMIN : Role::USER;
+        users.push_back(User(username, password, r));
+    }
+    file.close();
+}

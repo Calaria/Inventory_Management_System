@@ -3,9 +3,14 @@
 
 #include <vector>
 #include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <fstream> // 用于文件读写操作。
+#include <sstream> // 用于字符串流操作。
 
 #include "user.h"
 #include "Settings.h"
+
 using namespace std;
 
 class UserManager
@@ -23,6 +28,8 @@ public:
     void deleteUser(const string &username);
     void updateUser(const string &username, const string &newPassword);
     User *findUser(const string &username);
+    void loadUsers();
+
 };
 
 #endif // USER_MANAGER_H
