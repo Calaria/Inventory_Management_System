@@ -1,1 +1,2 @@
 admin 1 ADMIN
+wsc 1 USER

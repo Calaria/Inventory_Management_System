@@ -27,14 +27,14 @@ vector<string> choices = {" ",
 char prompt_user()
 {
     Settings::line_separator(cout);
-    cout << "Please select an option OR enter a keyword to search: " << endl;
+    cout << "[info]: Please select an option OR enter a keyword to search: " << endl;
     cout << "1. Find Product" << endl;    // map to 3
     cout << "2. Print Inventory" << endl; // map to 5
     cout << "3. Load Inventory" << endl;  // map to 7
     cout << "4. Sort by Price" << endl;   // map to 8
     cout << "5. Quit" << endl;            // map to 9
     Settings::line_separator(cout);
-    cout << "Enter your choice: ";
+    cout << "[info]: Enter your choice: ";
     string choice;
     getline(cin, choice);
     // if user enters a single character, return it
@@ -50,7 +50,7 @@ char prompt_user()
 char prompt_admin()
 {
     Settings::line_separator(cout);
-    cout << "Please select an option OR enter a keyword to search: " << endl;
+    cout << "[info]: Please select an option OR enter a keyword to search: " << endl;
     cout << "1. Add Product" << endl;     // admin
     cout << "2. Remove Product" << endl;  // admin
     cout << "3. Find Product" << endl;    // user1
@@ -61,7 +61,7 @@ char prompt_admin()
     cout << "8. Sort by Price" << endl;   // user4
     cout << "Q. Quit" << endl;            // user5
     Settings::line_separator(cout);
-    cout << "Enter your choice: ";
+    cout << "[info]: Enter your choice: ";
     string choice;
     getline(cin, choice);
     // if user enters a single character, return it
@@ -117,7 +117,7 @@ int handleCases(const string &role)
             string name, category;
             double price;
             int quantity;
-            printf("How many products do you want to add? ");
+            printf("[info]: How many products do you want to add? ");
             int n;
             cin >> n;
             unordered_set<string> Inquiry_content = {"ID", "Name", "Category", "Price", "Quantity"};
@@ -133,7 +133,7 @@ int handleCases(const string &role)
         case '2':
         {
             int id;
-            cout << "Enter product id: ";
+            cout << "[info]: Enter product id: ";
             cin >> id;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -155,8 +155,8 @@ int handleCases(const string &role)
 
             while (true)
             {
-                cout << "Enter the product id or product name to search\n";
-                cout << "If you want to exit, please enter Done\n";
+                cout << "[info]: Enter the product id or product name to search\n";
+                cout << "[info]: If you want to exit, please enter Done\n";
 
                 string input;
                 getline(cin, input);
@@ -191,7 +191,7 @@ int handleCases(const string &role)
             double price;
             int quantity;
 
-            cout << "Enter the product id: ";
+            cout << "[info]: Enter the product id: ";
             cin >> id;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -206,8 +206,8 @@ int handleCases(const string &role)
             vector<string> update_choices = {" ", "Name", "Category", "Price", "Quantity", "Done"};
             while (true)
             {
-                cout << "What information would you like to update? (Name/Category/Price/Quantity): \n";
-                cout << "If you are done updating, please enter 'Done'." << endl;
+                cout << "[info]: What information would you like to update? (Name/Category/Price/Quantity): \n";
+                cout << "[info]: If you are done updating, please enter 'Done'." << endl;
                 string input;
                 getline(cin, input);
                 transform(input.begin(), input.end(), input.begin(), ::tolower);
@@ -249,7 +249,7 @@ int handleCases(const string &role)
         case '8':
         {
             string sort_choice;
-            cout << "Sort by price in ascending or descending order? (A/D): ";
+            cout << "[info]: Sort by price in ascending or descending order? (A/D): ";
             getline(cin, sort_choice);
             if (!sort_choice.empty() && (sort_choice[0] == 'A' || sort_choice[0] == 'a' || sort_choice[0] == 'D' || sort_choice[0] == 'd'))
             {
@@ -311,12 +311,12 @@ int handle_user_cases()
         case '1':
         {
             string username, password;
-            cout << "Enter username: ";
+            cout << "[info]: Enter username: ";
             getline(cin, username);
-            cout << "Enter password: ";
+            cout << "[info]: Enter password: ";
             getline(cin, password);
             
-            cout << "Enter role (admin/user): ";
+            cout << "[info]: Enter role (admin/user): ";
             // get role
             Role role;
             string role_input;
@@ -342,7 +342,7 @@ int handle_user_cases()
         case '2':
         {
             string username;
-            cout << "Enter username: ";
+            cout << "[info]: Enter username: ";
             getline(cin, username);
             manager.deleteUser(username);
             break;
@@ -351,13 +351,13 @@ int handle_user_cases()
         case '3':
         {
             string username, password;
-            cout << "Enter username: ";
+            cout << "[info]: Enter username: ";
             getline(cin, username);
-            cout << "Enter new password: ";
+            cout << "[info]: Enter new password: ";
             getline(cin, password);
             Role role;
             string role_input;
-            cout<<"Enter role (admin/user): ";
+            cout<<"[info]: Enter role (admin/user): ";
             getline(cin, role_input);
             if (role_input == "admin")
             {
@@ -381,7 +381,7 @@ int handle_user_cases()
         case '4':
         {
             string username;
-            cout << "Enter username: ";
+            cout << "[info]: Enter username: ";
             getline(cin, username);
             User *user = manager.findUser(username);
             if (user != nullptr)
@@ -436,7 +436,7 @@ bool prompt_admin_UI() //
         Settings::line_separator(cout);
         // 管理员的专有操作
         // 选择处理商品信息还是用户信息
-        cout << "Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
+        cout << "[info]: Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
         int choice;
         cin >> choice;
         cin.clear();

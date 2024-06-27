@@ -24,7 +24,7 @@ void Inventory::removeProduct(int id)
     auto it = products.find(id);
     if (it != products.end())
     {
-        cout << "Are you sure you want to remove the product? (Y/N): ";
+        cout << "[info]: Are you sure you want to remove the product? (Y/N): ";
         {
             char choice;
             cin >> choice;

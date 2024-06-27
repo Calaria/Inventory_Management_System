@@ -63,11 +63,13 @@ int main()
             cout << "[info]: Too many failed attempts. Exiting..." << endl;
             break;
         }
+        cout << "[info]: If you want to quit, enter 'q'." << endl;
         string username, password;
-        cout << "Enter username: ";
+        cout << "[info]: Enter username: ";
         getline(cin, username);
-
-        cout << "Enter password: ";
+        if (username == "q")
+            break;
+        cout << "[info]: Enter password: ";
         getPassword(password);
         if (userManager.authenticate(username, password))
         {
@@ -75,15 +77,17 @@ int main()
             cout << "[info]: Authentication successful!" << endl;
             Role role = userManager.getUserRole(username);
             if (role == Role::ADMIN)
+            {
                 if (prompt_admin_UI() == false)
                     break; // 来此 cases.cpp
-                else
-                {
-                    cout << "[info]: Welcome, User!" << endl;
-                    Settings::line_separator(cout);
-                    // 普通用户的专有操作
-                    handleCases("user");
-                }
+            }
+            else
+            {
+                cout << "[info]: Welcome, User!" << endl;
+                Settings::line_separator(cout);
+                // 普通用户的专有操作
+                handleCases("user");
+            }
         }
         else
         {

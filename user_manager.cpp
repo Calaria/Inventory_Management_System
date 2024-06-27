@@ -5,7 +5,7 @@ void UserManager::addUser(const User &user)
     if (findUser(user.getUsername()) == nullptr)
         users.push_back(user);
     else
-        cerr << "Error: user already exists." << endl;
+        cerr << "[info]: Error: user already exists." << endl;
 }
 
 bool UserManager::authenticate(const string &username, const string &password) const
@@ -84,7 +84,7 @@ void UserManager::loadUsers()
     ifstream file("users.txt");
     if (!file)
     {
-        cerr << "Error: could not open file." << endl;
+        cerr << "[info]: Error: could not open file." << endl;
         return;
     }
 
@@ -104,7 +104,7 @@ void UserManager::saveUsers()
     ofstream file("users.txt");
     if (!file)
     {
-        cerr << "Error: could not open file." << endl;
+        cerr << "[info]: Error: could not open file." << endl;
         return;
     }
 

@@ -30,7 +30,6 @@ public:
     User *findUser(const string &username);
     void loadUsers();
     void saveUsers();
-
 };
 
 #endif // USER_MANAGER_H

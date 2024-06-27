@@ -11,7 +11,7 @@ void prompt_info(int &id, string &name, string &category, double &price, int &qu
 {
     if (Inquiry_content.count("ID"))
     {
-        cout << "Enter the product id: ";
+        cout << "[info]: Enter the product id: ";
         cin >> id;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -19,19 +19,19 @@ void prompt_info(int &id, string &name, string &category, double &price, int &qu
 
     if (Inquiry_content.count("Name"))
     {
-        cout << "Enter the product name: ";
+        cout << "[info]: Enter the product name: ";
         getline(cin, name);
     }
     
     if(Inquiry_content.count("Category"))
     {
-        cout << "Enter the product category: ";
+        cout << "[info]: Enter the product category: ";
         getline(cin, category);
     }
 
     if(Inquiry_content.count("Price"))
     {
-        cout << "Enter the product price: $ ";
+        cout << "[info]: Enter the product price: $ ";
         cin >> price;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -39,7 +39,7 @@ void prompt_info(int &id, string &name, string &category, double &price, int &qu
 
     if(Inquiry_content.count("Quantity"))
     {
-        cout << "Enter the product quantity: ";
+        cout << "[info]: Enter the product quantity: ";
         cin >> quantity;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
