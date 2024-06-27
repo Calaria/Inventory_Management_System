@@ -165,6 +165,7 @@ int handleCases(const string &role)
                 }
                 if (product != nullptr)
                 {
+                    cout<<"[info]: Product found.\n";
                     Settings::line_separator(cout);
                     Settings::printTableHeader(cout);
                     Settings::line_separator(cout);
