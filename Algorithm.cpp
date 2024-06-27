@@ -7,7 +7,6 @@
 #include <unordered_set>
 
 using namespace std;
-
 void prompt_info(int &id, string &name, string &category, double &price, int &quantity, unordered_set<string> Inquiry_content)
 {
     if (Inquiry_content.count("ID"))

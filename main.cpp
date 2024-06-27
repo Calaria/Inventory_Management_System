@@ -61,7 +61,7 @@ int main()
     int cnt = 0;
     while (true)
     {
-        if(cnt == 3)
+        if (cnt == 3)
         {
             cout << "[info]: Too many failed attempts. Exiting..." << endl;
             break;
@@ -72,46 +72,21 @@ int main()
 
         cout << "Enter password: ";
         getPassword(password);
-
         if (userManager.authenticate(username, password))
         {
             Settings::line_separator(cout);
             cout << "[info]: Authentication successful!" << endl;
             Role role = userManager.getUserRole(username);
             if (role == Role::ADMIN)
-            {
-                cout << "[info]: Welcome, Admin!" << endl;
-                Settings::line_separator(cout);
-                // 管理员的专有操作
-                // 选择处理商品信息还是用户信息
-                cout <<"Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
-                int choice;
-                cin >> choice;
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                if(choice == 1)
-                    handleCases("admin"); //来自cases.cpp
-                else if(choice == 2)
-                {
-                    handle_user_cases();//来自cases.cpp
-                }
-                else if (choice == 3)
-                {
-                    cout << "[info]: Exiting..." << endl;
-                    break;
-                }
+                if (prompt_admin_UI() == false)
+                    break; // 来此 cases.cpp
                 else
                 {
-                    cout << "[info]: Invalid choice." << endl;
+                    cout << "[info]: Welcome, User!" << endl;
+                    Settings::line_separator(cout);
+                    // 普通用户的专有操作
+                    handleCases("user");
                 }
-            }
-            else
-            {
-                cout << "[info]: Welcome, User!" << endl;
-                Settings::line_separator(cout);
-                // 普通用户的专有操作
-                handleCases("user");
-            }
         }
         else
         {
@@ -119,6 +94,5 @@ int main()
             cout << "[info]: Authentication failed!" << endl;
         }
     }
-
     return 0;
 }

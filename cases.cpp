@@ -165,7 +165,7 @@ int handleCases(const string &role)
                 }
                 if (product != nullptr)
                 {
-                    cout<<"[info]: Product found.\n";
+                    cout << "[info]: Product found.\n";
                     Settings::line_separator(cout);
                     Settings::printTableHeader(cout);
                     Settings::line_separator(cout);
@@ -283,13 +283,13 @@ int handle_user_cases()
     do
     {
         // display admin choices: add user, delete user, update user, get user, print users, quit
-        cout<<"1. Add User\n";
-        cout<<"2. Delete User\n";
-        cout<<"3. Update User\n";
-        cout<<"4. Get User\n";
-        cout<<"5. Print Users\n";
-        cout<<"6. Quit\n";
-        cout<<"Enter your choice: ";
+        cout << "1. Add User\n";
+        cout << "2. Delete User\n";
+        cout << "3. Update User\n";
+        cout << "4. Get User\n";
+        cout << "5. Print Users\n";
+        cout << "6. Quit\n";
+        cout << "Enter your choice: ";
         Settings::line_separator(cout);
         string choice;
         getline(cin, choice);
@@ -299,7 +299,35 @@ int handle_user_cases()
             Settings::line_separator(cout);
             return 0;
         }
+    } while (true);
+}
+// 如何返回false，则break
+bool prompt_admin_UI() //
+{
+    do
+    {cout << "[info]: Welcome, Admin!" << endl;
+    Settings::line_separator(cout);
+    // 管理员的专有操作
+    // 选择处理商品信息还是用户信息
+    cout << "Please choose the operation you want to perform: \n1. Product Management\n2. User Management\n3. Exit\n";
+    int choice;
+    cin >> choice;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    if (choice == 1)
+        handleCases("admin"); // 来自cases.cpp
+    else if (choice == 2)
+    {
+        handle_user_cases(); // 来自cases.cpp
     }
+    else if (choice == 3)
+    {
+        cout << "[info]: Exiting..." << endl;
+        return false;
+    }
+    else
+    {
+        cout << "[info]: Invalid choice." << endl;
+    }}
     while (true);
-
 }
