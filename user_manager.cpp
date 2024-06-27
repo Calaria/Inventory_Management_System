@@ -94,3 +94,21 @@ void UserManager::loadUsers()
     }
     file.close();
 }
+// save users
+void UserManager::saveUsers()
+{
+    ofstream file("users.txt");
+    if (!file)
+    {
+        cerr << "Error: could not open file." << endl;
+        return;
+    }
+
+    for (const auto &user : users)
+    {
+        file << user.getUsername() << " "
+             << user.getPassword() << " "
+             << (user.getRole() == Role::ADMIN ? "ADMIN" : "USER") << endl;
+    }
+    file.close();
+}

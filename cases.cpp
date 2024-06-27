@@ -315,7 +315,26 @@ int handle_user_cases()
             getline(cin, username);
             cout << "Enter password: ";
             getline(cin, password);
-            Role role = Role::USER;
+            
+            cout << "Enter role (admin/user): ";
+            // get role
+            Role role;
+            string role_input;
+            getline(cin, role_input);
+            if (role_input == "admin")
+            {
+                role = Role::ADMIN;
+            }
+            else if (role_input == "user")
+            {
+                role = Role::USER;
+            }
+            else
+            {
+                cout << "[info]: Invalid role. Please enter 'admin' or 'user'." << endl;
+                Settings::line_separator(cout);
+                break;
+            }
             manager.addUser(User(username, password, role));
             break;
         }
@@ -383,6 +402,9 @@ int handle_user_cases()
         }
         }
     } while (true);
+    // save users to file
+    manager.saveUsers();
+    return 0;
 }
 
 // 如何返回false，则break

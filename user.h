@@ -23,6 +23,7 @@ private:
 public:
     User(const string &username, const string &password, Role role);
     string getUsername() const;
+    string getPassword() const;
     bool verifyPassword(const string &password) const;
     Role getRole() const;
     string toString() const;

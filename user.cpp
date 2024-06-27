@@ -7,6 +7,11 @@ string User::getUsername() const
 {
     return username;
 }
+// get password
+string User::getPassword() const
+{
+    return password;
+}
 
 bool User::verifyPassword(const string &password) const
 {

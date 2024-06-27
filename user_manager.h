@@ -29,6 +29,7 @@ public:
     void updateUser(const string &username, const string &newPassword);
     User *findUser(const string &username);
     void loadUsers();
+    void saveUsers();
 
 };
 
