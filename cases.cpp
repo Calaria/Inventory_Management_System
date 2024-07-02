@@ -18,9 +18,9 @@ vector<string> choices = {" ",
                           "Remove Product",
                           "Find Product",
                           "Update Product",
-                          "Print Inventory",
-                          "Save Inventory",
-                          "Load Inventory",
+                          "Print ",
+                          "Save ",
+                          "Load ",
                           "Sort by Price",
                           "Quit"};
 
@@ -336,6 +336,7 @@ int handle_user_cases()
                 break;
             }
             manager.addUser(User(username, password, role));
+            cout<<"[info]: User added successfully."<<endl;
             break;
         }
         // delete user
@@ -345,6 +346,7 @@ int handle_user_cases()
             cout << "[info]: Enter username: ";
             getline(cin, username);
             manager.deleteUser(username);
+            cout<<"[info]: User deleted successfully."<<endl;
             break;
         }
         // update user
@@ -375,6 +377,7 @@ int handle_user_cases()
             }
             getline(cin, password);
             manager.updateUser(username, password,role);
+            cout<<"[info]: User updated successfully."<<endl;
             break;
         }
         // get user

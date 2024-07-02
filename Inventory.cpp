@@ -24,6 +24,9 @@ void Inventory::removeProduct(int id)
     auto it = products.find(id);
     if (it != products.end())
     {
+        // print this product
+        Settings::printTableHeader(cout);
+        cout << it->second.toString() << endl;
         cout << "[info]: Are you sure you want to remove the product? (Y/N): ";
         {
             char choice;
@@ -41,7 +44,6 @@ void Inventory::removeProduct(int id)
                 products.erase(it);
                 cout << "[info]: Product removed successfully." << endl;
                 Settings::line_separator(cout);
-                
             }
         }
     }
@@ -54,7 +56,7 @@ void Inventory::removeProduct(int id)
 
 Product *Inventory::findProduct(std::string input) // Product* 表示返回一个指向 Product 对象的指针。
 {
-    if(isdigit(input[0]))
+    if (isdigit(input[0]))
     {
         int id = stoi(input);
         auto it = products.find(id);
@@ -160,10 +162,10 @@ void Inventory::sortByPrice(char choice)
     {
         sortedProducts.push_back(pair.second);
     }
-    if (choice == 'A'|| choice == 'a')
+    if (choice == 'A' || choice == 'a')
         sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &a, const Product &b)
              { return a.getPrice() < b.getPrice(); });
-    else if (choice == 'D'|| choice == 'd')
+    else if (choice == 'D' || choice == 'd')
     {
         sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &a, const Product &b)
              { return a.getPrice() > b.getPrice(); });
